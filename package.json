@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "download": "^3.3.0",
+    "upper-case": "^3.0.0"
+  }
+}
