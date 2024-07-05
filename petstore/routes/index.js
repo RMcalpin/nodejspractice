@@ -7,16 +7,27 @@ var router = express.Router();
 //});
 
 const sections = [
-  {id:0, section1:"Intro to Programming"},
-  {id:1, section2:"Data Structures"},
-  {id:2, section3:"Computer Organization I"},
-  {id:3, section4:"Internet-based Programming"},
-  {id:4, section5:"Algorithms and Data Structures"},
+  {id:0, section:"Intro to Programming"},
+  {id:1, section:"Data Structures"},
+  {id:2, section:"Computer Organization I"},
+  {id:3, section:"Internet-based Programming"},
+  {id:4, section:"Algorithms and Data Structures"},
 ]
 
-router.get('/', function (req, res, next) {
+function getSection(req, res, next) {
+  var sec = sections[req.params.id];
+  if (sec) {
+    req.sec = sec;
+    next();
+  } else {
+    next(new Error('Failed to load user ' + req.params.id));
+  }
+}
+
+router.get('/index/:id', getSection, function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.write("<h1 style='color:green; text-align:center;'>Sections</h1>");
+  res.write("This section is " + req.sec.section);
   return res.end();
 });
 
