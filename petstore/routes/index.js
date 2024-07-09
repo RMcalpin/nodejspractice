@@ -44,14 +44,14 @@ function getInstructor(req, res, next) {
 
 router.get('/index/:id', getSection, function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write("<h1 style='color:green; text-align:center;'>Sections</h1>");
+  //res.write("<h1 style='color:green; text-align:center;'>Sections</h1>");
   res.write("This section is " + req.sec.section);
   return res.end();
 });
 
 router.get('/instructors/:id', getInstructor, function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write('hello from instructors<br>');
+  res.write('hello from instructors');
   res.write("This instructor is " + req.inst.instructor);
   return res.end();
 });
