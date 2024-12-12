@@ -6,8 +6,8 @@ const knex = require('knex')({
     host: '127.0.0.1',
     port: 3306,
     user: 'root',
-    password: 'start123',
-    database: 'university',
+    password: 'password123',
+    database: 'course_selection',
   },
 });
 
