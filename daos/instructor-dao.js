@@ -27,4 +27,24 @@ const retrieveInstructorByInstID = async(id) => {
   }
 };
 
-module.exports =  { retrieveInstructorByInstID };
+const retrieveInstructorNameOfficePhoneByInstID = async(id) => {
+  try {
+    console.log('In retrieveCourseNameLevelDescByCcode ');
+    instructor_items = [];
+    const result = await knex('instructor')
+    .select ('InstName','InstOffice','InstPhone')
+    .where({ InstID: id})
+    .first();
+    instructor_items.push({"Inst Name":result.InstName},{"Inst Office": result.InstOffice}, {"Inst Phone":result.InstPhone});
+    console.log('InstName: ' + result.InstName + ', CLevel: ' + result.InstOffice + ', CDesc: ' + result.InstPhone);
+    console.log('instructor_items[0]  ' + instructor_items[0] + 
+      'instructor_items[1]  ' + instructor_items[1] + 
+      'instructor_items[2]  ' + instructor_items[2]);
+    return result ? JSON.stringify(instructor_items) : null;
+  } 
+  catch (error) {
+    console.error('Error fetching InstName: ', error);
+  }
+};
+
+module.exports =  { retrieveInstructorByInstID, retrieveInstructorNameOfficePhoneByInstID };

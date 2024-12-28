@@ -1,5 +1,5 @@
 var express = require('express');
-const { retrieveInstructorByInstID } = require('../daos/instructor-dao');
+const {retrieveInstructorByInstID, retrieveInstructorNameOfficePhoneByInstID} = require('../daos/instructor-dao');
 var router = express.Router();
 module.exports = router;
 
@@ -24,12 +24,29 @@ router.get('/:id', async (req, res) => {
       res.json ({instructorName});
     }
     else
-    res.status(404).json({error: 'Instructor not found' });
+      res.status(404).json({error: 'Instructor not found' });
   }
   catch (error) {
     res.status(500).json({error: 'Internal Server Error' });
   }
 });
 /*  This statement exports the router */
+
+router.get('/All/:id', async (req, res) => {
+  
+  const { id } = req.params;
+ 
+  try {
+    const instructorName = await retrieveInstructorNameOfficePhoneByInstID (id);
+    if (instructorName) {
+      res.json ({instructorName});
+    } 
+    else
+      res.status(404).json({error: 'Course not found' });
+  }
+  catch (error) {
+    res.status(500).json({error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;
