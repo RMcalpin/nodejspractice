@@ -29,7 +29,7 @@ const retrieveInstructorByInstID = async(id) => {
 
 const retrieveInstructorNameOfficePhoneByInstID = async(id) => {
   try {
-    console.log('In retrieveCourseNameLevelDescByCcode ');
+    console.log('In retrieveInstructorNameOfficePhoneByInstID ');
     instructor_items = [];
     const result = await knex('instructor')
     .select ('InstName','InstOffice','InstPhone')
@@ -46,5 +46,27 @@ const retrieveInstructorNameOfficePhoneByInstID = async(id) => {
     console.error('Error fetching InstName: ', error);
   }
 };
+
+/*
+const retrieveInstructorNameOfficePhoneByInstIDJoin = async(id) => {
+  try {
+    course_items = [];
+    console.log('In retrieveInstructorNameOfficePhoneByInstIDJoin ');
+    const result = await knex('instructor as i')
+    .join('section as s', 's.section_of_course', 'c.Ccode')
+    .select ('c.CName','c.CDesc', 's.SecNo', 's.Building')
+    .where({ CCode: id})
+    .first();
+    course_items.push({"CName":result.CName}, {"CDesc":result.CDesc}, {"SecNo":result.SecNo}, {"Building":result.Building });
+    console.log('CName:  ' + result.CName + 'CLevel: ' + result.CLevel + 'CDesc: ' + result.CDesc);
+    console.log('course_items[0]  ' + course_items[0] + 
+      'course_items[1]  ' + course_items[1] + 
+      'course_items[2]  ' + course_items[2]);
+    return result ? JSON.stringify(course_items) : null;
+  } 
+  catch (error) {
+    console.error('Error fetching CName: ', error);
+  }
+};*/
 
 module.exports =  { retrieveInstructorByInstID, retrieveInstructorNameOfficePhoneByInstID };
