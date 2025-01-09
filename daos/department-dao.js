@@ -11,8 +11,8 @@ const knex = require('knex')({
   },
 });
 
-var course_items = [];
-const course_map = new Map();
+var department_items = [];
+const department_map = new Map();
 
 const retrieveDepartmentByDcode = async(id) => {
     try {
@@ -25,8 +25,29 @@ const retrieveDepartmentByDcode = async(id) => {
       return result ? result.DeptName : null;
     } 
     catch (error) {
-      console.error('Error fetching CName: ', error);
+      console.error('Error fetching DeptName: ', error);
     }
 };
 
-module.exports =  { retrieveDepartmentByDcode };
+const retrieveDepartmentNameOfficePhoneByDcode = async(id) => {
+  try {
+    console.log('In retrieveDepartmentNameOfficePhoneByDcode ');
+    department_items = [];
+    const result = await knex('department')
+    .select ('DeptName','DeptOffice','DeptPhone')
+    .where({ DeptCode: id})
+    .first();
+    department_items.push({"DeptName":result.DeptName},{"DeptOffice": result.DeptOffice}, {"DeptPhone":result.DeptPhone});
+    console.log('DeptName:  ' + result.DeptName + 'DeptOffice: ' + result.DeptOffice + 'DeptPhone: ' + result.DeptPhone);
+    console.log('department_items[0]  ' + department_items[0] + 
+      'department_items[1]  ' + department_items[1] + 
+      'department_items[2]  ' + department_items[2]);
+    return result ? JSON.stringify(department_items) : null;
+  } 
+  catch (error)
+  {
+    console.error('Error fetching DeptName: ', error);
+  }
+};
+
+module.exports =  { retrieveDepartmentByDcode, retrieveDepartmentNameOfficePhoneByDcode };
