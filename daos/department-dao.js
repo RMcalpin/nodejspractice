@@ -50,4 +50,26 @@ const retrieveDepartmentNameOfficePhoneByDcode = async(id) => {
   }
 };
 
-module.exports =  { retrieveDepartmentByDcode, retrieveDepartmentNameOfficePhoneByDcode };
+const retrieveDepartmentNameOfficePhoneByDcodeJoin = async(id) => {
+  try {
+    department_items = [];
+    console.log('In retrieveDepartmentNameOfficePhoneByDcodeJoin ');
+    const result = await knex('department as d')
+    .join('instructor as i', 'i.instructor_employedby', 'd.DeptCode')
+    .select ('d.DeptName','d.DeptOffice', 'i.InstName', 'i.InstOffice')
+    .where({ DeptCode: id})
+    .first();
+    department_items.push({"DeptName":result.DeptName}, {"DeptOffice":result.DeptOffice}, {"InstName":result.InstName}, {"InstOffice":result.InstOffice });
+    console.log('DeptName:  ' + result.DeptName + 'DeptOffice: ' + result.DeptOffice + 'InstName: ' + result.InstName + 'InstOffice: ' + result.InstOffice);
+    console.log('department_items[0]  ' + department_items[0] + 
+      'department_items[1]  ' + department_items[1] + 
+      'department_items[2]  ' + department_items[2] +
+      'department_items[3]  ' + department_items[3]);
+    return result ? JSON.stringify(department_items) : null;
+    }
+    catch (error) {
+      console.error('Error fetching DeptName: ', error);
+    }
+};
+
+module.exports =  { retrieveDepartmentByDcode, retrieveDepartmentNameOfficePhoneByDcode, retrieveDepartmentNameOfficePhoneByDcodeJoin };
