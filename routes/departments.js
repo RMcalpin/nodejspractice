@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {retrieveDepartmentByDcode, retrieveDepartmentNameOfficePhoneByDcode, retrieveDepartmentNameOfficePhoneByDcodeJoin } = require('../daos/department-dao.js');
+const {retrieveDepartmentByDcode, insertDepartment, retrieveDepartmentNameOfficePhoneByDcode, retrieveDepartmentNameOfficePhoneByDcodeJoin } = require('../daos/department-dao.js');
 const getDepartmentFromDB = require('../daos/department-dao.js');
 
 router.get('/', (req, res) => 
@@ -21,6 +21,26 @@ router.get('/:id', async (req, res) => {
   res.status(500).json({error: 'Internal Server Error' });
 }
 });
+
+router.post('/insert/:id', async (req, res) => {
+  try {
+    console.log('In post  ');
+    const retCode = await insertDepartment (req.body);
+    console.log('retCode:  ' + retCode);
+    if (retCode==="success")
+    {
+      res.status(200).json("insert successful");
+    }
+    else
+    {
+      res.status(404).json({error: 'Insert not successful' });
+    }
+  }
+  catch (error)
+  {
+  res.status(500).json({error: 'Internal Server Error' })
+  }
+})
 
 router.get('/All/:id', async (req, res) => {
   const { id } = req.params;

@@ -29,6 +29,26 @@ const retrieveDepartmentByDcode = async(id) => {
     }
 };
 
+const insertDepartment = async(departmentData) => {
+  try
+  {
+    console.log('In insertDepartment ');
+    console.log('departmentData:', departmentData);
+    if (!departmentData || Object.keys(departmentData).length === 0) {
+      throw new Error('departmentData is empty');
+    }
+    const result = await knex('department')
+    .insert(departmentData)
+        console.log('In try after insert');
+        return ("success");
+  }
+  catch (error) 
+  {
+    console.error('Error inserting department: ', error);
+    return ("failure");
+  }
+}
+
 const retrieveDepartmentNameOfficePhoneByDcode = async(id) => {
   try {
     console.log('In retrieveDepartmentNameOfficePhoneByDcode ');
@@ -72,4 +92,4 @@ const retrieveDepartmentNameOfficePhoneByDcodeJoin = async(id) => {
     }
 };
 
-module.exports =  { retrieveDepartmentByDcode, retrieveDepartmentNameOfficePhoneByDcode, retrieveDepartmentNameOfficePhoneByDcodeJoin };
+module.exports =  { retrieveDepartmentByDcode, insertDepartment, retrieveDepartmentNameOfficePhoneByDcode, retrieveDepartmentNameOfficePhoneByDcodeJoin };
