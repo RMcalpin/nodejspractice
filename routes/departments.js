@@ -3,8 +3,11 @@ var router = express.Router();
 const {retrieveDepartmentByDcode, insertDepartment, retrieveDepartmentNameOfficePhoneByDcode, retrieveDepartmentNameOfficePhoneByDcodeJoin } = require('../daos/department-dao.js');
 const getDepartmentFromDB = require('../daos/department-dao.js');
 
-router.get('/', (req, res) => 
-   {res.send('Courses are: ' + JSON.stringify(courses))});
+async function userInput() {
+  var deptname = document.getElementById("departmentid").innerHTML;
+  const departmentName = await retrieveDepartmentByDcode (deptname);
+  document.getElementById("results").innerHTML = departmentName;
+}
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;

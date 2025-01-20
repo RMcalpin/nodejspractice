@@ -7,6 +7,7 @@ const instructors = require('./routes/instructors')
 const departments = require('./routes/departments')
 
 app.use(bodyParser.json());
+app.use(express.static('public'));
 app.use('/courses', courses)
 app.use('/instructors', instructors)
 app.use('/departments', departments)
