@@ -16,7 +16,7 @@ router.get('/:id', async (req, res) => {
     console.log('req.params.id  ' + req.params.id);
   const departmentName = await retrieveDepartmentByDcode (id);
   if (departmentName) {
-    res.json ({departmentName});
+    res.status(200).json ({departmentName});
   } else
     res.status(404).json({error: 'Department not found' });
   }
