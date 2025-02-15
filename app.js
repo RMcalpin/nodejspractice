@@ -45,7 +45,6 @@ function createZip(callback) {
 
     const filePaths = [
         { path: '../university/universityclient/src/client-call.js', name: 'client-call.js' },
-        { path: '../university/universityclient/src/dept-insert.html', name: 'dept-insert.html' },
         { path: '../university/universityclient/src/index.html', name: 'index.html' }
     ];
 
