@@ -44,8 +44,11 @@ function createZip(callback) {
     archive.pipe(output);
 
     const filePaths = [
-        { path: '../university/universityclient/src/client-call.js', name: 'client-call.js' },
-        { path: '../university/universityclient/src/index.html', name: 'index.html' }
+        { path: '../university/universityclient/src/dept-http-methods.js', name: 'dept-http-methods.js' },
+        { path: '../university/universityclient/src/course-http-methods.js', name: 'course-http-methods.js' },
+        { path: '../university/universityclient/src/index.html', name: 'index.html' },
+        { path: '../university/universityclient/src/department.html', name: 'department.html' },
+        { path: '../university/universityclient/src/course.html', name: 'course.html' }
     ];
 
     filePaths.forEach(file => {
