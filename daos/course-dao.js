@@ -26,7 +26,27 @@ const retrieveCourseByCcode = async(id) => {
   } catch (error) {
     console.error('Error fetching CName: ', error);
   }
-  };
+};
+
+const insertCourse = async(courseData) => {
+  try {
+      console.log('In insertCourse ');
+      console.log('courseData:', courseData); // Debugging statement to log courseData
+      if (!courseData || Object.keys(courseData).length === 0) {
+        throw new Error('courseData is empty');
+      }
+      const result = await knex('course')
+      .insert (courseData)
+      
+          console.log('In try after insert');
+          return ("success");
+        
+    }
+   catch (error) {
+    console.error('Error inserting course: ', error);
+    return ("failure");
+  }
+}
 
   const retrieveCourseNameLevelDescByCcode = async(id) => {
     try {
@@ -68,7 +88,7 @@ const retrieveCourseByCcode = async(id) => {
       }
       };
 
-module.exports =  { retrieveCourseNameLevelDescByCcode, retrieveCourseByCcode, retrieveCourseNameLevelDescByCcodeJoin};
+module.exports =  { retrieveCourseNameLevelDescByCcode, insertCourse, retrieveCourseByCcode, retrieveCourseNameLevelDescByCcodeJoin};
 
 /*
 var jsonArg1 = new Object();

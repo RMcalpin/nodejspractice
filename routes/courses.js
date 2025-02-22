@@ -23,6 +23,25 @@ function getCourse (req, res, next) {
 router.get('/', (req, res) => 
    {res.send('Courses are: ' + JSON.stringify(courses))});
 
+router.post('/insert', async (req, res) => {
+  try {
+    console.log('In post  ');
+    const retCode = await insertCourse (req.body);
+    console.log('retCode:  ' + retCode);
+    if (retCode==="success") {
+      res.status(200).json("insert successful");
+    }
+    else
+    {
+      res.status(404).json({error: 'Insert not successful' });
+    }
+  }
+
+  catch (error) {
+  res.status(500).json({error: 'Internal Server Error' })
+  }
+})
+
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
