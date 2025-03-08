@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {retrieveCourseByCcode, retrieveCourseNameLevelDescByCcode, retrieveCourseNameLevelDescByCcodeJoin} = require('../daos/course-dao.js');
+const {retrieveCourseByCcode, retrieveCourseNameLevelDescByCcode, retrieveCourseNameLevelDescByCcodeJoin, insertCourse} = require('../daos/course-dao.js');
 //const retrieveCourseNameLevelDescByCcode = require('../daos/course-dao.js');
 const getCourseFromDB = require('../daos/course-dao.js');
 
@@ -23,7 +23,7 @@ function getCourse (req, res, next) {
 router.get('/', (req, res) => 
    {res.send('Courses are: ' + JSON.stringify(courses))});
 
-router.post('/insert', async (req, res) => {
+router.post('/insert/:id', async (req, res) => {
   try {
     console.log('In post  ');
     const retCode = await insertCourse (req.body);

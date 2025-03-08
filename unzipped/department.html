@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+      
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+      
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+      
+      .topnav a.active {
+        background-color: #040cac;
+        color: white;
+      }
+      </style>
+  </head>
+  <body>
+    <div class="topnav">
+        <a href=".\index.html">Home</a>
+        <a href=".\course.html">Courses</a>
+        <a class="active" href=".\department.html">Department</a>
+    </div><br>
+
+    <h1 style="text-align:center;">University Department Look Up</h1>
+
+    <div>
+      <h2>Look Up Department</h2><br>
+      <p>Enter Department Code: </p>
+      <input type="text" id="dept"></input><br>
+      <button type="button" onclick="getData()">Submit</button>
+      <h3 id="results1"></h3><br>
+    </div>
+
+    <div>
+      <h2>Look Up Department Attributes</h2><br>
+      <p>Enter Department Code: </p>
+      <input type="text" id="deptAll"></input><br>
+      <button type="button" onclick="getDataAll()">Submit</button>
+      <h3 id="results2"></h3><br>
+    </div>
+
+    <div>
+      <h2>Look Up Department and Instructor Attributes</h2><br>
+      <p>Enter Department Code: </p>
+      <input type="text" id="deptInst"></input><br>
+      <button type="button" onclick="getDataDepartmentInstructor()">Submit</button>
+      <h3 id="results3"></h3><br>
+    </div>
+
+    <div>
+      <h2>Enter New Department</h2><br>
+      <p>Enter Department Attributes: </p>
+      <input type="text" id="deptCodeInsert">Code</input><br>
+      <input type="text" id="deptNameInsert">Name</input><br>
+      <input type="text" id="deptOfficeInsert">Office</input><br>
+      <input type="text" id="deptPhoneInsert">Phone</input><br>
+      <input type="text" id="deptChairIdInsert">Chair ID</input><br>
+      <input type="text" id="CStartDateInsert">Start Date</input><br>
+      <button type="button" onclick="insertData()">Submit</button>
+      <h3 id="results4"></h3><br>
+    </div>
+    <script src="dept-http-methods.js" defer></script>
+  </body>
+</html>

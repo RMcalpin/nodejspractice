@@ -3,6 +3,8 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+
+/*
 module.exports = {
 
   development: {
@@ -44,4 +46,23 @@ module.exports = {
     }
   }
 
+};
+
+*/
+
+module.exports = {
+  development: {
+    client: 'mysql2',
+    connection: {
+      host: 'localhost',    // Change if using a different host
+      user: 'root',    // Replace with your MySQL username
+      password: 'password123', // Replace with your MySQL password
+      database: 'course_selection',
+      charset: 'utf8mb4',
+    },
+    pool: { min: 2, max: 10 },
+    migrations: {
+      tableName: 'knex_migrations',
+    },
+  },
 };
