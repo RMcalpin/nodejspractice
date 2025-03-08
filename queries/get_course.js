@@ -1,6 +1,6 @@
 const Course = require('../models/course');
 
-async function getAllCourses() {
+const allCourses = async() => {
     try {
       const courses = await Course.query();
       console.log(courses);
@@ -8,5 +8,5 @@ async function getAllCourses() {
       console.error('Error fetching courses:', error);
     }
 }
-  
-getAllCourses();
+
+module.exports =  { allCourses };
