@@ -10,6 +10,7 @@ const knex = require('knex')({
     database: 'course_selection',
   },
 });
+const Course = require('../models/course');
 
 var course_items = [];
 const course_map = new Map();
@@ -17,11 +18,17 @@ const course_map = new Map();
 const retrieveCourseByCcode = async(id) => {
   try {
     console.log('In retrieveCourseByCcode ');
-    const result = await knex('course')
+    /*const result = await knex('course')
     .select('CName')
     .where({ CCode: id})
     .first();
     console.log('CName:  ' + result.CName);
+    return result ? result.CName : null; */
+    const result = await Course.query()
+      .select('CName')
+      .where({ CCode: id })
+      .first();
+    console.log('Cname: ' + result.CName);
     return result ? result.CName : null;
   } catch (error) {
     console.error('Error fetching CName: ', error);
