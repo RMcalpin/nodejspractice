@@ -10,6 +10,7 @@ const knex = require('knex')({
     database: 'course_selection',
   },
 });
+const Department = require('../models/department');
 
 var department_items = [];
 const department_map = new Map();
@@ -17,11 +18,18 @@ const department_map = new Map();
 const retrieveDepartmentByDcode = async(id) => {
     try {
       console.log('In retrieveDepartmentByDcode ');
-      const result = await knex('department')
+      /*const result = await knex('department')
       .select('DeptName')
       .where({ DeptCode: id})
       .first();
       console.log('DeptName:  ' + result.DeptName);
+      return result ? result.DeptName : null;
+      */
+      const result = await Department.query()
+        .select('DeptName')
+        .where({ DeptCode: id })
+        .first();
+      console.log('DeptName: ' + result.DeptName);
       return result ? result.DeptName : null;
     } 
     catch (error) {
@@ -37,10 +45,16 @@ const insertDepartment = async(departmentData) => {
     if (!departmentData || Object.keys(departmentData).length === 0) {
       throw new Error('departmentData is empty');
     }
+    /*
     const result = await knex('department')
     .insert(departmentData)
         console.log('In try after insert');
         return ("success");
+    */
+      const result = await Department.query().insert(departmentData)
+      
+      console.log('In try after insert');
+      return ("success");
   }
   catch (error) 
   {
@@ -51,8 +65,9 @@ const insertDepartment = async(departmentData) => {
 
 const retrieveDepartmentNameOfficePhoneByDcode = async(id) => {
   try {
-    console.log('In retrieveDepartmentNameOfficePhoneByDcode ');
     department_items = [];
+    console.log('In retrieveDepartmentNameOfficePhoneByDcode ');
+    /*department_items = [];
     const result = await knex('department')
     .select ('DeptName','DeptOffice','DeptPhone')
     .where({ DeptCode: id})
@@ -63,6 +78,17 @@ const retrieveDepartmentNameOfficePhoneByDcode = async(id) => {
       'department_items[1]  ' + department_items[1] + 
       'department_items[2]  ' + department_items[2]);
     return result ? JSON.stringify(department_items) : null;
+    */
+    const result = await Department.query()
+      .select ('DeptName','DeptOffice','DeptPhone')
+      .where({ DeptCode: id})
+      .first();
+      department_items.push({"DeptName":result.DeptName},{"DeptOffice": result.DeptOffice}, {"DeptPhone":result.DeptPhone});
+      console.log('DeptName:  ' + result.DeptName + 'DeptOffice: ' + result.DeptOffice + 'DeptPhone: ' + result.DeptPhone);
+      console.log('department_items[0]  ' + department_items[0] + 
+        'department_items[1]  ' + department_items[1] + 
+        'department_items[2]  ' + department_items[2]);
+      return result ? JSON.stringify(department_items) : null;
   } 
   catch (error)
   {
@@ -72,6 +98,7 @@ const retrieveDepartmentNameOfficePhoneByDcode = async(id) => {
 
 const retrieveDepartmentNameOfficePhoneByDcodeJoin = async(id) => {
   try {
+    /*
     department_items = [];
     console.log('In retrieveDepartmentNameOfficePhoneByDcodeJoin ');
     const result = await knex('department as d')
@@ -86,6 +113,22 @@ const retrieveDepartmentNameOfficePhoneByDcodeJoin = async(id) => {
       'department_items[2]  ' + department_items[2] +
       'department_items[3]  ' + department_items[3]);
     return result ? JSON.stringify(department_items) : null;
+    */
+    department_items = [];
+    console.log('In retrieveDepartmentNameOfficePhoneByDcodeJoin ');
+    const result = await Department.query()
+      .alias('d')
+      .join('instructor as i', 'i.instructor_employedby', 'd.DeptCode')
+      .select ('d.DeptName','d.DeptOffice', 'i.InstName', 'i.InstOffice')
+      .where({ DeptCode: id})
+      .first();
+      department_items.push({"DeptName":result.DeptName}, {"DeptOffice":result.DeptOffice}, {"InstName":result.InstName}, {"InstOffice":result.InstOffice });
+      console.log('DeptName:  ' + result.DeptName + 'DeptOffice: ' + result.DeptOffice + 'InstName: ' + result.InstName + 'InstOffice: ' + result.InstOffice);
+      console.log('department_items[0]  ' + department_items[0] + 
+        'department_items[1]  ' + department_items[1] + 
+        'department_items[2]  ' + department_items[2] +
+        'department_items[3]  ' + department_items[3]);
+      return result ? JSON.stringify(department_items) : null;
     }
     catch (error) {
       console.error('Error fetching DeptName: ', error);
