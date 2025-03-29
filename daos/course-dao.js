@@ -11,6 +11,8 @@ const knex = require('knex')({
   },
 });
 const Course = require('../models/course');
+const Section = require('../models/section');
+const Instructor = require('../models/instructor');
 
 var course_items = [];
 const course_map = new Map();
@@ -42,12 +44,16 @@ const insertCourse = async(courseData) => {
       if (!courseData || Object.keys(courseData).length === 0) {
         throw new Error('courseData is empty');
       }
-      const result = await knex('course')
+      /*const result = await knex('course')
       .insert (courseData)
       
           console.log('In try after insert');
           return ("success");
-        
+      */
+      const result = await Course.query().insert(courseData)
+      
+      console.log('In try after insert');
+      return ("success");
     }
    catch (error) {
     console.error('Error inserting course: ', error);
@@ -57,7 +63,9 @@ const insertCourse = async(courseData) => {
 
   const retrieveCourseNameLevelDescByCcode = async(id) => {
     try {
+      course_items = [];
       console.log('In retrieveCourseNameLevelDescByCcode ');
+      /*
       const result = await knex('course')
       .select ('CName','CLevel','CDesc')
       .where({ CCode: id})
@@ -68,7 +76,17 @@ const insertCourse = async(courseData) => {
         'course_items[1]  ' + course_items[1] + 
         'course_items[2]  ' + course_items[2]);
       return result ? JSON.stringify(course_items) : null;
-
+      */
+      const result = await Course.query()
+        .select('CName', 'CLevel', 'CDesc')
+        .where({ CCode: id })
+        .first();
+        course_items.push({"CName":result.CName},{"CLevel": result.CLevel}, {"CDesc":result.CDesc});
+        console.log('CName:  ' + result.CName + 'CLevel: ' + result.CLevel + 'CDesc: ' + result.CDesc);
+        console.log('course_items[0]  ' + course_items[0] + 
+        'course_items[1]  ' + course_items[1] + 
+        'course_items[2]  ' + course_items[2]);
+        return result ? JSON.stringify(course_items) : null;
     } catch (error) {
       console.error('Error fetching CName: ', error);
     }
@@ -78,6 +96,7 @@ const insertCourse = async(courseData) => {
       try {
         course_items = [];
         console.log('In retrieveCourseNameLevelDescByCcodeJoin ');
+        /*
         const result = await knex('course as c')
         .join('section as s', 's.section_of_course', 'c.Ccode')
         .select ('c.CName','c.CDesc', 's.SecNo', 's.Building')
@@ -89,7 +108,19 @@ const insertCourse = async(courseData) => {
           'course_items[1]  ' + course_items[1] + 
           'course_items[2]  ' + course_items[2]);
         return result ? JSON.stringify(course_items) : null;
-  
+        */
+        const result = await Course.query()
+        .alias('c')
+        .join('section as s', 's.section_of_course', 'c.Ccode')
+        .select ('c.CName','c.CDesc', 's.SecNo', 's.Building')
+        .where({ CCode: id})
+        .first();
+        course_items.push({"CName":result.CName}, {"CDesc":result.CDesc}, {"SecNo":result.SecNo}, {"Building":result.Building });
+        console.log('CName:  ' + result.CName + 'CLevel: ' + result.CLevel + 'CDesc: ' + result.CDesc);
+        console.log('course_items[0]  ' + course_items[0] + 
+          'course_items[1]  ' + course_items[1] + 
+          'course_items[2]  ' + course_items[2]);
+        return result ? JSON.stringify(course_items) : null;
       } catch (error) {
         console.error('Error fetching CName: ', error);
       }
