@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {retrieveCourseByCcode, retrieveCourseNameLevelDescByCcode, retrieveCourseNameLevelDescByCcodeJoin, insertCourse} = require('../daos/course-dao.js');
+const {retrieveCourseByCcode, retrieveCourseNameLevelDescByCcode, retrieveCourseNameLevelDescByCcodeJoin, insertCourse, retrieveCourseAndDepartmentNamesByModel} = require('../daos/course-dao.js');
 //const retrieveCourseNameLevelDescByCcode = require('../daos/course-dao.js');
 const getCourseFromDB = require('../daos/course-dao.js');
 
@@ -88,6 +88,24 @@ router.get('/course_section/:id', async (req, res) => {
   const course_section = await retrieveCourseNameLevelDescByCcodeJoin (id);
   if (course_section) {
     res.json ({course_section});
+  } else
+    res.status(404).json({error: 'Course not found' });
+  }
+  catch (error) {
+  res.status(500).json({error: 'Internal Server Error' });
+}
+});
+
+router.get('/course_department/:id', async (req, res) => {
+  
+  const { id } = req.params;
+ 
+  try {
+    console.log('In Get/course_department  ');
+    console.log('req.params.id  ' + req.params.id);
+  const course_dept = await retrieveCourseAndDepartmentNamesByModel (id);
+  if (course_dept) {
+    res.json ({course_dept});
   } else
     res.status(404).json({error: 'Course not found' });
   }

@@ -126,7 +126,24 @@ const insertCourse = async(courseData) => {
       }
       };
 
-module.exports =  { retrieveCourseNameLevelDescByCcode, insertCourse, retrieveCourseByCcode, retrieveCourseNameLevelDescByCcodeJoin};
+      const retrieveCourseAndDepartmentNamesByModel = async(id) => {
+        try {
+          course_items = [];
+          console.log('In retrieveCourseAndDepartmentNamesByModel ');
+          const result = await Course.query()
+          //Needs code to fetch Model and gets the attributes from the Model
+          course_items.push({"CName":result.CName}, {"DeptName":result.DeptName});
+          console.log('CName:  ' + result.CName + 'DeptName: ' + result.DeptName);
+          console.log('course_items[0]  ' + course_items[0] + 
+            'course_items[1]  ' + course_items[1] + 
+            'course_items[2]  ' + course_items[2]);
+          return result ? JSON.stringify(course_items) : null;
+        } catch (error) {
+          console.error('Error fetching CName: ', error);
+        }
+        };
+
+module.exports =  { retrieveCourseNameLevelDescByCcode, insertCourse, retrieveCourseByCcode, retrieveCourseNameLevelDescByCcodeJoin, retrieveCourseAndDepartmentNamesByModel};
 
 /*
 var jsonArg1 = new Object();

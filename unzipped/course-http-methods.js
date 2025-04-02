@@ -124,6 +124,48 @@ async function getDataCourseSection() {
     }
 }
 
+async function getDataCourseDepartmentByModel() {
+    var coursedeptget = document.querySelector("#courseDept").value;
+    const url = "http://localhost:3000/courses/course_department/";
+    var urlandcourse = url + coursedeptget;
+    
+    try {
+        const response = await fetch(urlandcourse, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+  
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        
+        const json = await response.json();
+        console.log(json);
+        var query = document.querySelector("#results5");
+        if (query) {
+            query.textContent = JSON.stringify(json, null, 2);
+        } else {
+            console.error("Element not found");
+        }
+    } catch (error) {
+        if (error.message.includes('Network response was not ok')) {
+        
+        switch (error.message.split(': ')[1]) {
+            case '0':
+                console.error('Request failed. Possible network issue.');
+                break;
+            case '404':
+                console.error('Resource not found.');
+                break;
+        }
+        } else {
+            console.error('Error:', error);
+        }
+    }
+}
+
 async function insertData() {
     var ccode = document.querySelector("#cCodeInsert").value;
     var ccredits = document.querySelector("#cCreditsInsert").value;
